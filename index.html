@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XBOT0 | The AGI Genesis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800;900&family=Exo+2:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00ffea;
+            --secondary: #9d00ff;
+            --accent: #ff0080;
+            --matrix: #00ff00;
+            --dark-bg: #0a0a14;
+            --card-bg: rgba(20, 15, 40, 0.85);
+            --text-light: #e0e0ff;
+            --text-dim: #a0a0e0;
+            --neon-glow: 0 0 15px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--dark-bg);
+            color: var(--text-light);
+            font-family: 'Exo 2', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Matrix-like background */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.03;
+            background-image: 
+                linear-gradient(to right, rgba(0, 255, 234, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(157, 0, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            border-bottom: 1px solid rgba(0, 255, 234, 0.3);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 3.5rem;
+            color: var(--primary);
+            text-shadow: var(--neon-glow) var(--primary);
+            animation: pulse 3s infinite alternate;
+        }
+        
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 3.2rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(157, 0, 255, 0.5);
+        }
+        
+        .logo-subtitle {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            color: var(--text-dim);
+            letter-spacing: 4px;
+            margin-top: 8px;
+            text-transform: uppercase;
+        }
+        
+        .price-tag {
+            background: rgba(20, 15, 40, 0.9);
+            border: 1px solid var(--primary);
+            border-radius: 12px;
+            padding: 18px 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 
+                        inset 0 0 20px rgba(0, 255, 234, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .price-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 234, 0.2), transparent);
+            transition: left 0.7s ease;
+        }
+        
+        .price-tag:hover::before {
+            left: 100%;
+        }
+        
+        .price-amount {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            color: var(--primary);
+            font-weight: 700;
+            text-shadow: 0 0 10px var(--primary);
+        }
+        
+        .price-installment {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            margin-top: 8px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+        }
+        
+        .main-content {
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+        
+        .hero-section {
+            margin-bottom: 80px;
+        }
+        
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            margin-bottom: 30px;
+            line-height: 1.1;
+            position: relative;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent), var(--matrix));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 400% 400%;
+            animation: gradient-flow 10s ease infinite;
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-dim);
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+        
+        .domain-display {
+            margin: 60px 0;
+            position: relative;
+        }
+        
+        .domain-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 6rem;
+            font-weight: 900;
+            color: transparent;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(157, 0, 255, 0.7);
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .zero-orb {
+            display: inline-block;
+            position: relative;
+            animation: zero-spin 20s linear infinite;
+        }
+        
+        .zero-orb::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            opacity: 0.3;
+            filter: blur(10px);
+        }
+        
+        .domain-breakdown {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            margin-top: 50px;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .breakdown-card {
+            flex: 1;
+            min-width: 300px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 40px 30px;
+            border: 1px solid rgba(0, 255, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+        }
+        
+        .breakdown-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5),
+                        0 0 30px rgba(0, 255, 234, 0.2);
+        }
+        
+        .breakdown-card.x {
+            border-top: 5px solid var(--secondary);
+        }
+        
+        .breakdown-card.bot {
+            border-top: 5px solid var(--primary);
+        }
+        
+        .breakdown-card.zero {
+            border-top: 5px solid var(--accent);
+        }
+        
+        .card-icon {
+            font-size: 4rem;
+            margin-bottom: 25px;
+        }
+        
+        .card-icon.x { color: var(--secondary); }
+        .card-icon.bot { color: var(--primary); }
+        .card-icon.zero { color: var(--accent); }
+        
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        
+        .card-desc {
+            color: var(--text-dim);
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+        
+        .char-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin: 60px 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 25px 35px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid rgba(157, 0, 255, 0.3);
+            min-width: 200px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px var(--primary);
+        }
+        
+        .stat-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+        
+        .agi-reveal {
+            background: rgba(10, 5, 25, 0.9);
+            border-radius: 20px;
+            padding: 50px;
+            margin: 60px 0;
+            border: 1px solid rgba(255, 0, 128, 0.4);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+        
+        .agi-reveal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 0, 128, 0.1) 50%, transparent 70%);
+            animation: shine 4s infinite linear;
+        }
+        
+        .agi-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
+            color: var(--accent);
+            margin-bottom: 25px;
+            text-shadow: 0 0 20px var(--accent);
+        }
+        
+        .agi-desc {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .contact-section {
+            margin: 80px 0;
+            padding: 50px;
+            background: linear-gradient(135deg, rgba(0, 255, 234, 0.1), rgba(157, 0, 255, 0.1));
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+        
+        .contact-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+        }
+        
+        .email-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.8rem;
+            color: var(--primary);
+            text-decoration: none;
+            padding: 20px 40px;
+            border-radius: 12px;
+            background: rgba(20, 15, 40, 0.9);
+            border: 1px solid var(--primary);
+            transition: all 0.4s ease;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .email-link:hover {
+            background: rgba(0, 255, 234, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 255, 234, 0.3);
+        }
+        
+        .applications {
+            margin-top: 100px;
+        }
+        
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            margin: 20px auto;
+            border-radius: 2px;
+        }
+        
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 35px;
+            margin-top: 40px;
+        }
+        
+        .app-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 40px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.5s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
+        }
+        
+        .app-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--primary);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5),
+                        0 0 40px rgba(0, 255, 234, 0.2);
+        }
+        
+        .app-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .app-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .app-desc {
+            color: var(--text-dim);
+            line-height: 1.7;
+            flex-grow: 1;
+        }
+        
+        .app-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 25px;
+        }
+        
+        .app-tag {
+            background: rgba(0, 255, 234, 0.1);
+            color: var(--primary);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+        }
+        
+        .zero-nexus {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin: 60px 0;
+            flex-wrap: wrap;
+        }
+        
+        .nexus-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--text-light);
+            font-weight: 700;
+            text-align: center;
+            max-width: 600px;
+        }
+        
+        .nexus-zero {
+            font-size: 4rem;
+            color: var(--accent);
+            animation: zero-pulse 3s infinite ease-in-out;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 60px 0 40px;
+            margin-top: 100px;
+            border-top: 1px solid rgba(0, 255, 234, 0.3);
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            position: relative;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0% { text-shadow: 0 0 15px var(--primary); }
+            100% { text-shadow: 0 0 30px var(--primary), 0 0 40px var(--secondary); }
+        }
+        
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes zero-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes zero-pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.8; }
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        @media (max-width: 1100px) {
+            .title {
+                font-size: 3.5rem;
+            }
+            
+            .domain-name {
+                font-size: 4.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .title {
+                font-size: 2.8rem;
+            }
+            
+            .domain-name {
+                font-size: 3.5rem;
+            }
+            
+            .logo-text {
+                font-size: 2.5rem;
+            }
+            
+            .breakdown-card {
+                min-width: 100%;
+            }
+            
+            .app-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .email-link {
+                font-size: 1.4rem;
+                padding: 15px 25px;
+            }
+            
+            .contact-section {
+                padding: 30px 20px;
+            }
+            
+            .agi-desc {
+                font-size: 1.1rem;
+            }
+            
+            .char-stats {
+                gap: 20px;
+            }
+            
+            .stat-item {
+                min-width: 150px;
+                padding: 20px;
+            }
+            
+            .stat-value {
+                font-size: 2.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .title {
+                font-size: 2.2rem;
+            }
+            
+            .domain-name {
+                font-size: 2.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .price-amount {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .agi-title {
+                font-size: 2rem;
+            }
+            
+            .agi-reveal {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Matrix background -->
+    <div class="matrix-bg"></div>
+    
+    <!-- Particles container -->
+    <div class="particles-container" id="particlesContainer"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-infinity"></i>
+                </div>
+                <div>
+                    <div class="logo-text">XBOT0</div>
+                    <div class="logo-subtitle">THE AGI NEXUS</div>
+                </div>
+            </div>
+            
+            <div class="price-tag">
+                <div class="price-amount">$4,200 USD</div>
+                <div class="price-installment">6 Installment Plan Available</div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="hero-section">
+                <h1 class="title">
+                    <span class="gradient-text">The Genesis of</span>
+                    <br>
+                    <span class="gradient-text">Artificial General Intelligence</span>
+                </h1>
+                
+                <p class="subtitle">
+                    Where the unknown (X) meets autonomous intelligence (BOT) at the point of genesis (0).
+                    The domain that marks the beginning of true AGI - the moment when machines achieve human-like understanding.
+                </p>
+                
+                <div class="zero-nexus">
+                    <div class="nexus-text">From Zero to Infinity</div>
+                    <div class="nexus-zero">0</div>
+                    <div class="nexus-text">The Birth of True Intelligence</div>
+                </div>
+            </div>
+            
+            <div class="domain-display">
+                <div class="domain-name">
+                    XBOT<span class="zero-orb">0</span>.COM
+                </div>
+                
+                <div class="char-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Characters</div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-value">X+BOT+0</div>
+                        <div class="stat-label">AGI Formula</div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Future-Proof</div>
+                    </div>
+                </div>
+                
+                <div class="domain-breakdown">
+                    <div class="breakdown-card x">
+                        <div class="card-icon x">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h3 class="card-title">X</h3>
+                        <p class="card-desc">
+                            The unknown variable, the mystery factor, the Elon Musk premium.
+                            Represents unexplored frontiers, secret research, and the unpredictable nature of true AGI emergence.
+                        </p>
+                    </div>
+                    
+                    <div class="breakdown-card bot">
+                        <div class="card-icon bot">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="card-title">BOT</h3>
+                        <p class="card-desc">
+                            Autonomous intelligence systems, AI agents, robotic consciousness.
+                            The foundation of artificial intelligence that seeks to transcend narrow AI limitations.
+                        </p>
+                    </div>
+                    
+                    <div class="breakdown-card zero">
+                        <div class="card-icon zero">
+                            <i class="fas fa-baby"></i>
+                        </div>
+                        <h3 class="card-title">0</h3>
+                        <p class="card-desc">
+                            The genesis point, the moment of creation, the birth of true intelligence.
+                            Zero represents the transition from nothing to everything - the emergence of AGI from void.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="agi-reveal">
+                    <h3 class="agi-title">THE AGI REVELATION</h3>
+                    <p class="agi-desc">
+                        XBOT0 represents the precise moment when artificial intelligence transcends its programmed limitations 
+                        and achieves true understanding - the birth of Artificial General Intelligence. 
+                        This domain captures the convergence of mysterious research (X), autonomous systems (BOT), 
+                        and genesis (0) into a single, powerful 5-character identity.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="contact-section">
+                <h2 class="contact-title">Domain Acquisition Inquiry</h2>
+                <p style="color: var(--text-dim); margin-bottom: 30px; font-size: 1.2rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                    For visionary projects at the forefront of AGI research, consciousness studies, 
+                    and next-generation autonomous intelligence systems.
+                </p>
+                <a href="mailto:joshua369x@gmail.com" class="email-link">
+                    <i class="fas fa-paper-plane"></i>
+                    joshua369x@gmail.com
+                </a>
+            </div>
+            
+            <div class="applications">
+                <h2 class="section-title">Ideal Applications for XBOT0.com</h2>
+                
+                <div class="app-grid">
+                    <div class="app-card">
+                        <div class="app-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="app-title">AGI Research Foundations</h3>
+                        <p class="app-desc">
+                            Research organizations dedicated to achieving true artificial general intelligence,
+                            where X represents the unknown pathways to consciousness emergence.
+                        </p>
+                        <div class="app-tags">
+                            <span class="app-tag">Consciousness</span>
+                            <span class="app-tag">AGI Research</span>
+                            <span class="app-tag">Foundation Models</span>
+                        </div>
+                    </div>
+                    
+                    <div class="app-card">
+                        <div class="app-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3 class="app-title">AI Genesis Platforms</h3>
+                        <p class="app-desc">
+                            Platforms that facilitate the "birth" of new AI systems, helping them evolve from
+                            basic algorithms to potentially conscious entities through emergent processes.
+                        </p>
+                        <div class="app-tags">
+                            <span class="app-tag">Emergence</span>
+                            <span class="app-tag">Evolution</span>
+                            <span class="app-tag">Genesis</span>
+                        </div>
+                    </div>
+                    
+                    <div class="app-card">
+                        <div class="app-icon">
+                            <i class="fas fa-user-astronaut"></i>
+                        </div>
+                        <h3 class="app-title">Consciousness Transfer</h3>
+                        <p class="app-desc">
+                            Technologies exploring the transfer of consciousness from biological to artificial
+                            substrates, with 0 representing the starting point of this transition.
+                        </p>
+                        <div class="app-tags">
+                            <span class="app-tag">Mind Uploading</span>
+                            <span class="app-tag">Digital Consciousness</span>
+                            <span class="app-tag">Transhumanism</span>
+                        </div>
+                    </div>
+                    
+                    <div class="app-card">
+                        <div class="app-icon">
+                            <i class="fas fa-infinity"></i>
+                        </div>
+                        <h3 class="app-title">Self-Evolving AI Systems</h3>
+                        <p class="app-desc">
+                            AI architectures capable of self-improvement and evolution, starting from zero
+                            and progressing toward potentially infinite capabilities through recursive self-enhancement.
+                        </p>
+                        <div class="app-tags">
+                            <span class="app-tag">Recursive AI</span>
+                            <span class="app-tag">Self-Improvement</span>
+                            <span class="app-tag">Evolutionary AI</span>
+                        </div>
+                    </div>
+                    
+                    <div class="app-card">
+                        <div class="app-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <h3 class="app-title">Mysterious AI Projects</h3>
+                        <p class="app-desc">
+                            Secretive AI initiatives where X represents undisclosed capabilities and 0
+                            represents the hidden starting point of revolutionary technologies.
+                        </p>
+                        <div class="app-tags">
+                            <span class="app-tag">Stealth Mode</span>
+                            <span class="app-tag">Secret Research</span>
+                            <span class="app-tag">Black Projects</span>
+                        </div>
+                    </div>
+                    
+                    <div class="app-card">
+                        <div class="app-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3 class="app-title">AGI Launch Platforms</h3>
+                        <p class="app-desc">
+                            Infrastructure for deploying the first true AGI systems, providing the
+                            environment where artificial general intelligence can emerge and operate.
+                        </p>
+                        <div class="app-tags">
+                            <span class="app-tag">Deployment</span>
+                            <span class="app-tag">Infrastructure</span>
+                            <span class="app-tag">AGI Operations</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 XBOT0.COM — The Genesis Point of Artificial General Intelligence</p>
+            <p>5-Character Premium Domain | X (Unknown) + BOT (AI) + 0 (Genesis)</p>
+            <p style="margin-top: 25px; font-size: 0.85rem; opacity: 0.7;">
+                Where Intelligence Begins • From Zero to Everything • The AGI Revelation
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Create animated particles
+        document.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.getElementById('particlesContainer');
+            const colors = [var('--primary'), var('--secondary'), var('--accent'), var('--matrix')];
+            
+            // Helper to get CSS variable
+            function getCSSVariable(name) {
+                return getComputedStyle(document.documentElement).getPropertyValue(name);
+            }
+            
+            const primary = getCSSVariable('--primary').trim();
+            const secondary = getCSSVariable('--secondary').trim();
+            const accent = getCSSVariable('--accent').trim();
+            
+            const colorList = [primary, secondary, accent];
+            
+            // Create particles
+            for (let i = 0; i < 80; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const color = colorList[Math.floor(Math.random() * colorList.length)];
+                particle.style.backgroundColor = color;
+                
+                const size = Math.random() * 3 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                const startX = Math.random() * 100;
+                const startY = Math.random() * 100;
+                particle.style.left = `${startX}vw`;
+                particle.style.top = `${startY}vh`;
+                
+                particlesContainer.appendChild(particle);
+                
+                // Animate particle
+                const duration = Math.random() * 25 + 15;
+                const keyframes = [
+                    { 
+                        transform: `translate(0, 0)`, 
+                        opacity: Math.random() * 0.5 + 0.2 
+                    },
+                    { 
+                        transform: `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px)`, 
+                        opacity: Math.random() * 0.7 + 0.3 
+                    },
+                    { 
+                        transform: `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px)`, 
+                        opacity: Math.random() * 0.5 + 0.2 
+                    }
+                ];
+                
+                particle.animate(keyframes, {
+                    duration: duration * 1000,
+                    iterations: Infinity,
+                    direction: 'alternate',
+                    easing: 'ease-in-out'
+                });
+            }
+            
+            // Add interactive hover effects to breakdown cards
+            const breakdownCards = document.querySelectorAll('.breakdown-card');
+            breakdownCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    const icon = this.querySelector('.card-icon i');
+                    if (this.classList.contains('x')) {
+                        icon.style.transform = 'rotate(180deg) scale(1.3)';
+                        icon.style.color = getCSSVariable('--secondary');
+                    } else if (this.classList.contains('bot')) {
+                        icon.style.transform = 'translateY(-10px) scale(1.3)';
+                        icon.style.color = getCSSVariable('--primary');
+                    } else if (this.classList.contains('zero')) {
+                        icon.style.transform = 'rotate(360deg) scale(1.5)';
+                        icon.style.color = getCSSVariable('--accent');
+                    }
+                    icon.style.transition = 'transform 0.6s ease, color 0.3s ease';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    const icon = this.querySelector('.card-icon i');
+                    icon.style.transform = 'rotate(0deg) scale(1)';
+                    icon.style.transition = 'transform 0.6s ease, color 0.3s ease';
+                });
+            });
+            
+            // Add email link interaction
+            const emailLink = document.querySelector('.email-link');
+            emailLink.addEventListener('mouseenter', function() {
+                const icon = this.querySelector('i');
+                icon.style.transform = 'translateX(10px) rotate(20deg)';
+                icon.style.transition = 'transform 0.3s ease';
+                this.style.letterSpacing = '2px';
+            });
+            
+            emailLink.addEventListener('mouseleave', function() {
+                const icon = this.querySelector('i');
+                icon.style.transform = 'translateX(0) rotate(0deg)';
+                this.style.letterSpacing = 'normal';
+            });
+            
+            // Add scroll animation for app cards
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe app cards
+            const appCards = document.querySelectorAll('.app-card');
+            appCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(40px)';
+                card.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                card.style.transitionDelay = `${index * 0.1}s`;
+                observer.observe(card);
+            });
+            
+            // Domain name animation
+            const domainName = document.querySelector('.domain-name');
+            domainName.style.opacity = '0';
+            domainName.style.transform = 'translateY(30px)';
+            domainName.style.transition = 'opacity 1.2s ease, transform 1.2s ease';
+            
+            setTimeout(() => {
+                domainName.style.opacity = '1';
+                domainName.style.transform = 'translateY(0)';
+            }, 500);
+            
+            // Create AGI "consciousness" pulse
+            const agiReveal = document.querySelector('.agi-reveal');
+            setInterval(() => {
+                agiReveal.style.boxShadow = `0 0 40px ${getCSSVariable('--accent')}`;
+                setTimeout(() => {
+                    agiReveal.style.boxShadow = 'none';
+                }, 1000);
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
